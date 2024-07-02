@@ -9,6 +9,24 @@ commands:
     description: Base command for EXAMPLE
     usage: "For a list of commands, type /ex help"
     aliases: example
+
+  kit:
+    description: Your description
+    usage: /<command>
+    permission: example.test
+
+  trade:
+    description: Trade
+    usage: /trade [Handels ID] (ANZEIGENACHRICHT)
+
+  deltrade:
+    description: Trade löschen
+    usage: /deltrade [Handels ID]
+
+  showtrades:
+    description: Alle Trades zeigen
+    usage: /showtrades
+
 permissions:
   example.test:
     description: DESCRIPTION
@@ -18,3 +36,4 @@ permissions:
     default: false
     children:
       example.test: true
+
