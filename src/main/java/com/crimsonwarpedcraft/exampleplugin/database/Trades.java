@@ -66,7 +66,10 @@ public class Trades {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendPlayerListHeader(Component.text("Das ist ein Test"));
         }
+    }
 
+    public static Component generatePlayerHeader(){
+        return Component.text("Das ist ein Test");
     }
 
 
