@@ -2,38 +2,27 @@ main: ${PACKAGE}.${NAME}
 name: ${NAME}
 version: "${VERSION}"
 api-version: "1.16"
-author: AUTHOR
-description: DESCRIPTION
+author: Niclas
+description: Trade Plugin für Chris
 commands:
-  ex:
-    description: Base command for EXAMPLE
-    usage: "For a list of commands, type /ex help"
-    aliases: example
-
-  kit:
-    description: Your description
-    usage: /<command>
-    permission: example.test
-
   trade:
     description: Trade
     usage: /trade [Handels ID] (ANZEIGENACHRICHT)
+    permission: trades
 
   deltrade:
     description: Trade löschen
     usage: /deltrade [Handels ID]
+    permission: trades
 
   showtrades:
     description: Alle Trades zeigen
     usage: /showtrades
+    permission: trades
 
 permissions:
-  example.test:
-    description: DESCRIPTION
+  trades:
+    description: Trades Command
     default: true
-  example.*:
-    description: Grants all other permissions
-    default: false
-    children:
-      example.test: true
+
 

@@ -1,4 +1,4 @@
-package com.crimsonwarpedcraft.exampleplugin;
+package xyz.niclas.trades;
 
 import org.junit.jupiter.api.Test;
 

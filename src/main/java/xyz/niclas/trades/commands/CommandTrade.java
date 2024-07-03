@@ -1,6 +1,6 @@
-package com.crimsonwarpedcraft.exampleplugin.commands;
+package xyz.niclas.trades.commands;
 
-import com.crimsonwarpedcraft.exampleplugin.database.Trades;
+import xyz.niclas.trades.database.Trades;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

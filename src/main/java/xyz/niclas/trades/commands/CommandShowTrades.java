@@ -1,28 +1,30 @@
-package com.crimsonwarpedcraft.exampleplugin.commands;
+package xyz.niclas.trades.commands;
 
-import com.crimsonwarpedcraft.exampleplugin.ExamplePlugin;
-import org.bukkit.Material;
+import xyz.niclas.trades.database.Trades;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class CommandKit implements CommandExecutor {
+import java.util.List;
+
+public class CommandShowTrades implements CommandExecutor {
 
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         if (commandSender instanceof Player player) {
-            // Here we need to give items to our player
 
+            List<Trades.Trade> trades = Trades.getTrades(player);
+            for (Trades.Trade trade : trades) {
+                player.sendMessage(Component.text(trade.tradeId + ": " + trade.tradeName));
+            }
 
-            ItemStack diamond = new ItemStack(Material.DIAMOND);
-            diamond.setAmount(40);
-            player.getInventory().addItem(diamond);
         }
+
 
         return true;
     }

@@ -1,6 +1,6 @@
-package com.crimsonwarpedcraft.exampleplugin.listener;
+package xyz.niclas.trades.listener;
 
-import com.crimsonwarpedcraft.exampleplugin.database.Trades;
+import xyz.niclas.trades.database.Trades;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
