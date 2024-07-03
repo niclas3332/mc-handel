@@ -7,6 +7,7 @@ import xyz.niclas.trades.commands.CommandShowTrades;
 import xyz.niclas.trades.commands.CommandTrade;
 import xyz.niclas.trades.listener.JoinListener;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
 
@@ -24,7 +25,17 @@ public class TradesPlugin extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("deltrade")).setExecutor(new CommandDeleteTrade());
 
         Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
+        try {
+            DatabaseManager.connect();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
+    }
+
+    @Override
+    public void onDisable() {
+        DatabaseManager.disconnect();
     }
 
 

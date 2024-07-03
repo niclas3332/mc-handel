@@ -52,6 +52,19 @@ public class Trades {
     }
 
     /**
+     * Retrieves a trade with the specified trade ID.
+     *
+     * @param tradeId The ID of the trade to retrieve.
+     * @return An Optional containing the trade with the specified ID, or an empty Optional if no trade is found.
+     */
+    public static Optional<Trade> getTrade(String tradeId, Player player) {
+        return tradeList.stream()
+                .filter(trade -> trade.tradeId.equals(tradeId) && trade.player == player.getUniqueId())
+                .findFirst();
+    }
+
+
+    /**
      * Updates the trades by setting the header to all players in the server.
      */
     public static void updateTrades() {
@@ -62,6 +75,12 @@ public class Trades {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendPlayerListHeader(header);
         }
+    }
+
+    public static void setTradeList(List<Trade> trades) {
+        // Set the trade list
+        tradeList.clear();
+        tradeList.addAll(trades);
     }
 
     /**

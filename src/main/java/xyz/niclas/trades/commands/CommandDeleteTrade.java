@@ -6,7 +6,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import xyz.niclas.trades.DatabaseManager;
 import xyz.niclas.trades.database.Trades;
+
+import java.sql.SQLException;
 
 /**
  * Represents a command for deleting a trade.
@@ -34,9 +37,16 @@ public class CommandDeleteTrade implements CommandExecutor {
                     .filter(playerTrade -> playerTrade.player.equals(player.getUniqueId()) || player.isOp())
                     .ifPresentOrElse(
                             playerTrade -> {
+                                try {
+                                    DatabaseManager.delTrade(tradeId);
+                                } catch (SQLException e) {
+                                    player.sendMessage(Component.text("Trade konnte nicht gel\u00F6scht werden. Bitte später erneut versuchen."));
+                                }
+
                                 player.sendMessage(Component.text("Trade wurde gel\u00F6scht."));
                                 playerTrade.delete();
                                 Trades.updateTrades();
+
                             },
                             () -> player.sendMessage(Component.text("Trade nicht gefunden."))
                     );

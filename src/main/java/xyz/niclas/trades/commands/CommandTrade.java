@@ -6,8 +6,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import xyz.niclas.trades.DatabaseManager;
 import xyz.niclas.trades.database.Trades;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -36,13 +38,22 @@ public class CommandTrade implements CommandExecutor {
 
             Optional<Trades.Trade> trade = Trades.getTrade(tradeId);
 
-            if (trade.isPresent() && trade.get().player == player.getUniqueId()) {
-                player.sendMessage(Component.text("Du hast bereits einen Trade mit dieser ID."));
+            if (trade.isPresent()) {
+                if (trade.get().player == player.getUniqueId())
+                    player.sendMessage(Component.text("Du hast bereits einen Trade mit dieser ID, bitte lösche diesen zuerst."));
+                else
+                    player.sendMessage(Component.text("Diese Trade-ID ist bereits in Benutzung."));
                 return true;
             }
+            Trades.Trade newTrade = new Trades.Trade(player.getUniqueId(), tradeId, tradeDesc);
 
-
-            Trades.addTrade(new Trades.Trade(player.getUniqueId(), tradeId, tradeDesc));
+            try {
+                DatabaseManager.addTrade(newTrade);
+            } catch (SQLException e) {
+                player.sendMessage(Component.text("Dein Trade konnte nicht hinzugef\u00FCgt werden."));
+                return false;
+            }
+            Trades.addTrade(newTrade);
             Trades.updateTrades();
             player.sendMessage(Component.text("Dein Trade wurde hinzugef\u00FCgt."));
 
