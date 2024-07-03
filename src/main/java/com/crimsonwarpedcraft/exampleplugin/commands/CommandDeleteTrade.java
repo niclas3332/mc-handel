@@ -1,6 +1,8 @@
 package com.crimsonwarpedcraft.exampleplugin.commands;
 
 import com.crimsonwarpedcraft.exampleplugin.ExamplePlugin;
+import com.crimsonwarpedcraft.exampleplugin.database.Trades;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,12 +18,22 @@ public class CommandDeleteTrade implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         if (commandSender instanceof Player player) {
-            // Here we need to give items to our player
 
 
-            ItemStack diamond = new ItemStack(Material.DIAMOND);
-            diamond.setAmount(40);
-            player.getInventory().addItem(diamond);
+            String tradeId = strings[0];
+
+            Trades.Trade playerTrade = Trades.getTrade(tradeId);
+            if (playerTrade != null) {
+
+                if (playerTrade.player != player.getUniqueId()) {
+                    player.sendMessage(Component.text("Du kannst nur deine eigenen Trades löschen."));
+                    return true;
+                }
+                playerTrade.delete();
+                return true;
+            }
+            player.sendMessage(Component.text("Trade nicht gefunden."));
+
         }
 
         return true;

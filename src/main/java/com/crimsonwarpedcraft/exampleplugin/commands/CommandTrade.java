@@ -1,6 +1,8 @@
 package com.crimsonwarpedcraft.exampleplugin.commands;
 
 import com.crimsonwarpedcraft.exampleplugin.database.Trades;
+import me.neznamy.tab.api.TabAPI;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,6 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class CommandTrade implements CommandExecutor {
 
 
@@ -16,12 +21,20 @@ public class CommandTrade implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         if (commandSender instanceof Player player) {
-            // Here we need to give items to our player
 
-            ItemStack diamond = new ItemStack(Material.DIAMOND);
-            diamond.setAmount(40);
-            player.getInventory().addItem(diamond);
-            Trades.addToTest("Hallo", "Tschüss");
+            String tradeId = strings[0];
+            String tradeDesc = String.join(" ", Arrays.copyOfRange(strings, 1, strings.length));
+
+            Trades.Trade trade = Trades.getTrade(tradeId);
+
+            if (trade != null && trade.player == player.getUniqueId()) {
+                player.sendMessage(Component.text("Du hast bereits einen Trade mit dieser ID."));
+                return true;
+            }
+            Trades.Trade newTrade = new Trades.Trade(player.getUniqueId(), tradeId, tradeDesc);
+            Trades.addTrade(newTrade);
+
+
         }
 
 
