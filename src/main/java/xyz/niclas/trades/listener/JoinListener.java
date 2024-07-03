@@ -7,6 +7,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import xyz.niclas.trades.database.Trades;
 
+/**
+ * JoinListener class that handles the PlayerJoinEvent.
+ */
 public class JoinListener implements Listener {
 
 

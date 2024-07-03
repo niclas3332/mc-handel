@@ -9,7 +9,11 @@ import org.jetbrains.annotations.NotNull;
 import xyz.niclas.trades.database.Trades;
 
 import java.util.Arrays;
+import java.util.Optional;
 
+/**
+ * Represents a command for creating a new trade.
+ */
 public class CommandTrade implements CommandExecutor {
 
 
@@ -30,14 +34,15 @@ public class CommandTrade implements CommandExecutor {
             String tradeId = strings[0];
             String tradeDesc = String.join(" ", Arrays.copyOfRange(strings, 1, strings.length));
 
-            Trades.Trade trade = Trades.getTrade(tradeId);
+            Optional<Trades.Trade> trade = Trades.getTrade(tradeId);
 
-            if (trade != null && trade.player == player.getUniqueId()) {
+            if (trade.isPresent() && trade.get().player == player.getUniqueId()) {
                 player.sendMessage(Component.text("Du hast bereits einen Trade mit dieser ID."));
                 return true;
             }
-            Trades.Trade newTrade = new Trades.Trade(player.getUniqueId(), tradeId, tradeDesc);
-            Trades.addTrade(newTrade);
+
+
+            Trades.addTrade(new Trades.Trade(player.getUniqueId(), tradeId, tradeDesc));
             Trades.updateTrades();
             player.sendMessage(Component.text("Dein Trade wurde hinzugefügt."));
 

@@ -10,6 +10,9 @@ import xyz.niclas.trades.database.Trades;
 
 import java.util.List;
 
+/**
+ * Represents a command for showing trades associated with a player.
+ */
 public class CommandShowTrades implements CommandExecutor {
 
 

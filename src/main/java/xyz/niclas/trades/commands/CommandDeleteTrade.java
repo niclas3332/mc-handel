@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.niclas.trades.database.Trades;
 
+/**
+ * Represents a command for deleting a trade.
+ */
 public class CommandDeleteTrade implements CommandExecutor {
 
 
@@ -25,23 +28,18 @@ public class CommandDeleteTrade implements CommandExecutor {
 
         if (commandSender instanceof Player player) {
 
-
             String tradeId = strings[0];
 
-            Trades.Trade playerTrade = Trades.getTrade(tradeId);
-            if (playerTrade != null) {
-
-                if (playerTrade.player != player.getUniqueId() && !player.isOp()) {
-                    player.sendMessage(Component.text("Du kannst nur deine eigenen Trades löschen."));
-                    return true;
-                }
-                player.sendMessage(Component.text("Trade wurde gelöscht."));
-                playerTrade.delete();
-                Trades.updateTrades();
-                return true;
-            }
-            player.sendMessage(Component.text("Trade nicht gefunden."));
-
+            Trades.getTrade(tradeId)
+                    .filter(playerTrade -> playerTrade.player.equals(player.getUniqueId()) || player.isOp())
+                    .ifPresentOrElse(
+                            playerTrade -> {
+                                player.sendMessage(Component.text("Trade wurde gelöscht."));
+                                playerTrade.delete();
+                                Trades.updateTrades();
+                            },
+                            () -> player.sendMessage(Component.text("Trade nicht gefunden oder du kannst diesen Trade nicht löschen."))
+                    );
 
         }
 

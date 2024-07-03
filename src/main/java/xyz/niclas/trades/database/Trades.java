@@ -7,9 +7,16 @@ import org.bukkit.entity.Player;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Trades {
+
+    /**
+     * A list of trades.
+     */
+    public static final List<Trade> tradeList = new ArrayList<>();
 
     /**
      * Retrieves a list of trades associated with a player.
@@ -18,23 +25,43 @@ public class Trades {
      * @return A list of trades associated with the specified player.
      */
     public static List<Trade> getTrades(Player player) {
-        List<Trade> playerTrades = new ArrayList<>();
-        for (Trade trade : tradeList) {
-            if (trade.player.equals(player.getUniqueId())) {
-                playerTrades.add(trade);
-            }
-        }
-        return playerTrades;
+        return tradeList.stream()
+                .filter(trade -> trade.player.equals(player.getUniqueId()))
+                .collect(Collectors.toList());
     }
-
-    public static final List<Trade> tradeList = new ArrayList<>();
 
     public static void addTrade(Trade trade) {
         tradeList.add(trade);
     }
 
+
     public static void delTrade(Trade trade) {
         tradeList.remove(trade);
+    }
+
+    /**
+     * Retrieves a trade with the specified trade ID.
+     *
+     * @param tradeId The ID of the trade to retrieve.
+     * @return An Optional containing the trade with the specified ID, or an empty Optional if no trade is found.
+     */
+    public static Optional<Trade> getTrade(String tradeId) {
+        return tradeList.stream()
+                .filter(trade -> trade.tradeId.equals(tradeId))
+                .findFirst();
+    }
+
+    /**
+     * Updates the trades by setting the header to all players in the server.
+     */
+    public static void updateTrades() {
+        // Set Header to all players
+
+        Component header = generatePlayerHeader();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendPlayerListHeader(header);
+        }
     }
 
     /**
@@ -51,26 +78,6 @@ public class Trades {
         }
 
         return component;
-    }
-
-    public static Trade getTrade(String tradeId) {
-        for (Trade trade : tradeList) {
-            if (trade.tradeId.equals(tradeId)) {
-                return trade;
-            }
-        }
-        return null;
-
-    }
-
-    public static void updateTrades() {
-        // Set Header to all players
-
-        Component header = generatePlayerHeader();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendPlayerListHeader(header);
-        }
     }
 
     public static class Trade {
