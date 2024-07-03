@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class Trades {
 
-      public static class Trade {
+    public static class Trade {
 
         public UUID player;
         public String tradeId;
@@ -24,7 +24,7 @@ public class Trades {
             this.tradeName = tradeName;
         }
 
-        public void delete(){
+        public void delete() {
             tradeList.remove(this);
         }
 
@@ -32,11 +32,11 @@ public class Trades {
 
     public static final List<Trade> tradeList = new ArrayList<>();
 
-    public static void addTrade(Trade trade){
+    public static void addTrade(Trade trade) {
         tradeList.add(trade);
     }
 
-    public static void delTrade(Trade trade){
+    public static void delTrade(Trade trade) {
         tradeList.remove(trade);
     }
 
@@ -50,7 +50,7 @@ public class Trades {
         return playerTrades;
     }
 
-    public static Trade getTrade(String tradeId){
+    public static Trade getTrade(String tradeId) {
         for (Trade trade : tradeList) {
             if (trade.tradeId.equals(tradeId)) {
                 return trade;
@@ -60,19 +60,19 @@ public class Trades {
 
     }
 
-    public static void updateTrades(){
+    public static void updateTrades() {
         // Set Header to all players
 
+        Component header = generatePlayerHeader();
+
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendPlayerListHeader(Component.text("Das ist ein Test"));
+            player.sendPlayerListHeader(header);
         }
     }
 
-    public static Component generatePlayerHeader(){
+    public static Component generatePlayerHeader() {
         return Component.text("Das ist ein Test");
     }
-
-
 
 
 }
