@@ -17,7 +17,7 @@ public class DatabaseManager {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        connection = DriverManager.getConnection("jdbc:sqlite:plugins/TestPlugin/database.db");
+        connection = DriverManager.getConnection("jdbc:sqlite:plugins/TradesPlugin/database.db");
         generateDatabase();
         Trades.setTradeList(getTrades());
 
