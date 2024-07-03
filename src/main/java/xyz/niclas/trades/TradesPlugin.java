@@ -10,7 +10,7 @@ import xyz.niclas.trades.listener.JoinListener;
 import java.util.Objects;
 
 
-public class ExamplePlugin extends JavaPlugin {
+public class TradesPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
