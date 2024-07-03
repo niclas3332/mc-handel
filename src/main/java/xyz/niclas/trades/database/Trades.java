@@ -11,32 +11,20 @@ import java.util.UUID;
 
 public class Trades {
 
-    public static class Trade {
-
-        public UUID player;
-        public String tradeId;
-        public String tradeName;
-        public LocalDateTime dateTime;
-
-
-        public Trade(UUID player, String tradeId, String tradeName) {
-            this.player = player;
-            this.tradeId = tradeId;
-            this.tradeName = tradeName;
-            this.dateTime = LocalDateTime.now();
+    /**
+     * Retrieves a list of trades associated with a player.
+     *
+     * @param player The player whose trades are being retrieved.
+     * @return A list of trades associated with the specified player.
+     */
+    public static List<Trade> getTrades(Player player) {
+        List<Trade> playerTrades = new ArrayList<>();
+        for (Trade trade : tradeList) {
+            if (trade.player.equals(player.getUniqueId())) {
+                playerTrades.add(trade);
+            }
         }
-
-        public void delete() {
-            tradeList.remove(this);
-        }
-
-        public String getPlayerName() {
-            Player p = Bukkit.getPlayer(player);
-            if (p == null)
-                return "PlayerNotFound";
-            return p.getName();
-        }
-
+        return playerTrades;
     }
 
     public static final List<Trade> tradeList = new ArrayList<>();
@@ -49,14 +37,20 @@ public class Trades {
         tradeList.remove(trade);
     }
 
-    public static List<Trade> getTrades(Player player) {
-        List<Trade> playerTrades = new ArrayList<>();
+    /**
+     * Generates the player header component to be displayed in the player list.
+     *
+     * @return The player header component.
+     */
+    public static Component generatePlayerHeader() {
+
+        Component component = Component.empty();
+
         for (Trade trade : tradeList) {
-            if (trade.player.equals(player.getUniqueId())) {
-                playerTrades.add(trade);
-            }
+            component = component.append(Component.text(trade.getPlayerName() + ": " + trade.tradeName).appendNewline());
         }
-        return playerTrades;
+
+        return component;
     }
 
     public static Trade getTrade(String tradeId) {
@@ -79,15 +73,39 @@ public class Trades {
         }
     }
 
-    public static Component generatePlayerHeader() {
+    public static class Trade {
 
-        Component component = Component.empty();
+        public UUID player;
+        public String tradeId;
+        public String tradeName;
+        public LocalDateTime dateTime;
 
-        for (Trade trade : tradeList) {
-            component = component.append(Component.text(trade.getPlayerName() + ": " + trade.tradeName).appendNewline());
+
+        /**
+         * Constructs a new Trade object.
+         *
+         * @param player    The UUID of the player involved in the trade.
+         * @param tradeId   The ID of the trade.
+         * @param tradeName The name of the trade.
+         */
+        public Trade(UUID player, String tradeId, String tradeName) {
+            this.player = player;
+            this.tradeId = tradeId;
+            this.tradeName = tradeName;
+            this.dateTime = LocalDateTime.now();
         }
 
-        return component;
+        public void delete() {
+            tradeList.remove(this);
+        }
+
+        public String getPlayerName() {
+            Player p = Bukkit.getPlayer(player);
+            if (p == null)
+                return "PlayerNotFound";
+            return p.getName();
+        }
+
     }
 
 

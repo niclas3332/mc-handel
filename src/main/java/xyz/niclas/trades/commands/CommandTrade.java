@@ -1,18 +1,27 @@
 package xyz.niclas.trades.commands;
 
-import xyz.niclas.trades.database.Trades;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import xyz.niclas.trades.database.Trades;
 
 import java.util.Arrays;
 
 public class CommandTrade implements CommandExecutor {
 
 
+    /**
+     * Executes the command when triggered by a command sender.
+     *
+     * @param commandSender The command sender who executed the command.
+     * @param command       The command that was executed.
+     * @param s             The command label.
+     * @param strings       The command arguments.
+     * @return true if the command was executed successfully, otherwise false.
+     */
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 

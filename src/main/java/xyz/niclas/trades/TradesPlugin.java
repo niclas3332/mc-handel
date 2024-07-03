@@ -12,6 +12,9 @@ import java.util.Objects;
 
 public class TradesPlugin extends JavaPlugin {
 
+    /**
+     * This method is called when the plugin is enabled.
+     */
     @Override
     public void onEnable() {
         saveDefaultConfig();
