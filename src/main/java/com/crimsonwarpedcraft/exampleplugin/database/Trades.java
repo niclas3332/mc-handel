@@ -4,10 +4,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Trades {
 
@@ -16,16 +14,25 @@ public class Trades {
         public UUID player;
         public String tradeId;
         public String tradeName;
+        public LocalDateTime dateTime;
 
 
         public Trade(UUID player, String tradeId, String tradeName) {
             this.player = player;
             this.tradeId = tradeId;
             this.tradeName = tradeName;
+            this.dateTime = LocalDateTime.now();
         }
 
         public void delete() {
             tradeList.remove(this);
+        }
+
+        public String getPlayerName() {
+            Player p = Bukkit.getPlayer(player);
+            if (p == null)
+                return "PlayerNotFound";
+            return p.getName();
         }
 
     }
@@ -71,7 +78,14 @@ public class Trades {
     }
 
     public static Component generatePlayerHeader() {
-        return Component.text("Das ist ein Test");
+
+        Component component = Component.empty();
+
+        for (Trade trade : tradeList) {
+            component = component.append(Component.text(trade.getPlayerName() + ": " + trade.tradeName).appendNewline());
+        }
+
+        return component;
     }
 
 

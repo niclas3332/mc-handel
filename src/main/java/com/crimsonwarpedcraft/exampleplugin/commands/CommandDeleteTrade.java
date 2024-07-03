@@ -29,10 +29,14 @@ public class CommandDeleteTrade implements CommandExecutor {
                     player.sendMessage(Component.text("Du kannst nur deine eigenen Trades löschen."));
                     return true;
                 }
+                player.sendMessage(Component.text("Trade wurde gelöscht."));
                 playerTrade.delete();
+                Trades.updateTrades();
                 return true;
             }
             player.sendMessage(Component.text("Trade nicht gefunden."));
+
+
 
         }
 
