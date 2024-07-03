@@ -44,7 +44,7 @@ public class CommandTrade implements CommandExecutor {
 
             Trades.addTrade(new Trades.Trade(player.getUniqueId(), tradeId, tradeDesc));
             Trades.updateTrades();
-            player.sendMessage(Component.text("Dein Trade wurde hinzugefügt."));
+            player.sendMessage(Component.text("Dein Trade wurde hinzugef\u00FCgt."));
 
         }
 

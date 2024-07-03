@@ -1,6 +1,5 @@
 package xyz.niclas.trades.listener;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,9 +22,7 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        event.joinMessage(
-                Component.text("Player " + player.getName() + " ist beigetreten.")
-        );
+
         player.sendPlayerListHeader(Trades.generatePlayerHeader());
 
     }

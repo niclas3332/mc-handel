@@ -11,7 +11,7 @@ commands:
     permission: trades
 
   deltrade:
-    description: Trade löschen
+    description: Trade l\u00FCschen
     usage: /deltrade [Handels ID]
     permission: trades
 

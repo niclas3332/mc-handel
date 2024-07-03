@@ -34,11 +34,11 @@ public class CommandDeleteTrade implements CommandExecutor {
                     .filter(playerTrade -> playerTrade.player.equals(player.getUniqueId()) || player.isOp())
                     .ifPresentOrElse(
                             playerTrade -> {
-                                player.sendMessage(Component.text("Trade wurde gelöscht."));
+                                player.sendMessage(Component.text("Trade wurde gel\u00F6scht."));
                                 playerTrade.delete();
                                 Trades.updateTrades();
                             },
-                            () -> player.sendMessage(Component.text("Trade nicht gefunden oder du kannst diesen Trade nicht löschen."))
+                            () -> player.sendMessage(Component.text("Trade nicht gefunden."))
                     );
 
         }
