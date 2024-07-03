@@ -23,7 +23,9 @@ public class JoinListener implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        player.sendPlayerListHeader(Trades.generatePlayerHeader());
-
+        if (player.isOp())
+            player.sendPlayerListHeader(Trades.generateOPHeader());
+        else
+            player.sendPlayerListHeader(Trades.generatePlayerHeader());
     }
 }

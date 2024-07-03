@@ -2,6 +2,7 @@ package xyz.niclas.trades.database;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
@@ -71,8 +72,11 @@ public class Trades {
         // Set Header to all players
 
         Component header = generatePlayerHeader();
+        Component opHeader = generateOPHeader();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.isOp())
+                player.sendPlayerListHeader(opHeader);
             player.sendPlayerListHeader(header);
         }
     }
@@ -94,6 +98,17 @@ public class Trades {
 
         for (Trade trade : tradeList) {
             component = component.append(Component.text(trade.getPlayerName() + ": " + trade.tradeName).appendNewline());
+        }
+
+        return component;
+    }
+
+    public static Component generateOPHeader() {
+
+        Component component = Component.empty();
+
+        for (Trade trade : tradeList) {
+            component = component.append(Component.text("[" + trade.tradeId + "] " + trade.getPlayerName() + ": " + trade.tradeName).appendNewline());
         }
 
         return component;
@@ -126,8 +141,8 @@ public class Trades {
         }
 
         public String getPlayerName() {
-            Player p = Bukkit.getPlayer(player);
-            if (p == null)
+            OfflinePlayer p = Bukkit.getOfflinePlayer(player);
+            if (p.getName() == null)
                 return "PlayerNotFound";
             return p.getName();
         }
