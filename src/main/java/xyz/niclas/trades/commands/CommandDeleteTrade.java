@@ -40,7 +40,7 @@ public class CommandDeleteTrade implements CommandExecutor {
                                 try {
                                     DatabaseManager.delTrade(tradeId);
                                 } catch (SQLException e) {
-                                    player.sendMessage(Component.text("Trade konnte nicht gel\u00F6scht werden. Bitte später erneut versuchen."));
+                                    player.sendMessage(Component.text("Trade konnte nicht gel\u00F6scht werden. Bitte sp\u00E4ter erneut versuchen."));
                                 }
 
                                 player.sendMessage(Component.text("Trade wurde gel\u00F6scht."));

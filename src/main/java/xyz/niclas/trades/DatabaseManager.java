@@ -2,6 +2,8 @@ package xyz.niclas.trades;
 
 import xyz.niclas.trades.database.Trades;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +13,30 @@ public class DatabaseManager {
 
     public static Connection connection;
 
+    public static String DBPATH = "plugins/TradesPlugin/database.db";
+
+    public static void generateDbFile() {
+        // Generate the DB File if it does not exist
+        File dbFile = new File(DBPATH);
+        if (!dbFile.exists()) {
+            try {
+                dbFile.getParentFile().mkdirs();
+                dbFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
     public static void connect() throws SQLException {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        connection = DriverManager.getConnection("jdbc:sqlite:plugins/TradesPlugin/database.db");
+
+        connection = DriverManager.getConnection("jdbc:sqlite:" + DBPATH);
         generateDatabase();
         Trades.setTradeList(getTrades());
 
@@ -44,7 +63,7 @@ public class DatabaseManager {
     public static void addTrade(Trades.Trade trade) throws SQLException {
         // Add trade to database
 
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO trades (playerUuid, tradeName, tradeId) VALUES (?, ?, ?)");
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO trades (player, item, tradeId) VALUES (?, ?, ?)");
         statement.setString(1, trade.player.toString());
         statement.setString(2, trade.tradeName);
         statement.setString(3, trade.tradeId);
@@ -66,9 +85,9 @@ public class DatabaseManager {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM trades");
             List<Trades.Trade> trades = new ArrayList<>();
             while (resultSet.next()) {
-                UUID player = UUID.fromString(resultSet.getString("playerUuid"));
+                UUID player = UUID.fromString(resultSet.getString("player"));
                 String tradeId = resultSet.getString("tradeId");
-                String tradeName = resultSet.getString("tradeName");
+                String tradeName = resultSet.getString("item");
                 Trades.Trade trade = new Trades.Trade(player, tradeId, tradeName);
                 trades.add(trade);
             }

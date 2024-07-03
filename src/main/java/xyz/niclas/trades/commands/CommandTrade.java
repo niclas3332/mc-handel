@@ -40,7 +40,7 @@ public class CommandTrade implements CommandExecutor {
 
             if (trade.isPresent()) {
                 if (trade.get().player == player.getUniqueId())
-                    player.sendMessage(Component.text("Du hast bereits einen Trade mit dieser ID, bitte lösche diesen zuerst."));
+                    player.sendMessage(Component.text("Du hast bereits einen Trade mit dieser ID, bitte l\u00F6sche diesen zuerst."));
                 else
                     player.sendMessage(Component.text("Diese Trade-ID ist bereits in Benutzung."));
                 return true;
@@ -51,6 +51,7 @@ public class CommandTrade implements CommandExecutor {
                 DatabaseManager.addTrade(newTrade);
             } catch (SQLException e) {
                 player.sendMessage(Component.text("Dein Trade konnte nicht hinzugef\u00FCgt werden."));
+                player.sendMessage(Component.text(e.getMessage()));
                 return false;
             }
             Trades.addTrade(newTrade);
